@@ -1,12 +1,17 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate';
 
 // const API_KEY = 'a1723647754841d0ac7be4cf26cc87f0';
 
 export default createStore({
+  plugins: [createPersistedState({
+    paths: ['articles', 'index'],
+  })],
   state: {
     articles: [],
     statusPage: '',
+    index: 0,
   },
   getters: {
   },
@@ -16,7 +21,10 @@ export default createStore({
     },
     setStatus(state, payload) {
       state.statusPage = payload;
-  },
+    },
+    setIndex(state, payload) {
+      state.index = payload;
+    },
   },
   actions: {
     fetchList(store) {
@@ -28,7 +36,10 @@ export default createStore({
         .catch((error) => {
           store.commit("setStatus", error);
         });
-  },
+    },
+    changeIndex(store, payload){
+      store.commit('setIndex', payload);
+    }
   },
   modules: {
   }
